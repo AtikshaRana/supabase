@@ -54,7 +54,7 @@ export const Auth = () => {
         />
         <button
           type="submit"
-          style={{ padding: "0.5rem 1rem", marginRight: "0.5rem" }}
+          style={{ padding: "0.5rem 1rem", margin: "0.8rem" }}
         >
           {isSignUp ? "Sign Up" : "Sign In"}
         </button>
