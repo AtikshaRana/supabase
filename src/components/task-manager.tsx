@@ -125,30 +125,75 @@ function TaskManager({ session }: { session: Session }) {
     <div style={{ maxWidth: "600px", margin: "0 auto", padding: "1rem" }}>
       <h2>Task Manager CRUD</h2>
 
-      {/* Form to add a new task */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: "1rem" }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          marginBottom: "2rem",
+          borderRadius: "8px",
+          maxWidth: "500px",
+          margin: "auto",
+        }}
+      >
         <input
           type="text"
           placeholder="Task Title"
           onChange={(e) =>
             setNewTask((prev) => ({ ...prev, title: e.target.value }))
           }
-          style={{ width: "100%", marginBottom: "0.5rem", padding: "0.5rem" }}
+          style={{
+            width: "100%",
+            marginBottom: "1rem",
+            padding: "0.75rem",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            fontSize: "1rem",
+          }}
         />
+
         <textarea
           placeholder="Task Description"
           onChange={(e) =>
             setNewTask((prev) => ({ ...prev, description: e.target.value }))
           }
-          style={{ width: "100%", marginBottom: "0.5rem", padding: "0.5rem" }}
+          rows={4}
+          style={{
+            width: "100%",
+            marginBottom: "1rem",
+            padding: "0.75rem",
+            borderRadius: "6px",
+            border: "1px solid #ccc",
+            fontSize: "1rem",
+            resize: "vertical",
+          }}
         />
 
-        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          style={{
+            marginBottom: "1rem",
+            display: "block",
+            fontSize: "0.9rem",
+          }}
+        />
 
-        <button type="submit" style={{ padding: "0.5rem 1rem" }}>
+        <button
+          type="submit"
+          style={{
+            padding: "0.75rem 1.5rem",
+            backgroundColor: "#4CAF50",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            fontSize: "1rem",
+            cursor: "pointer",
+          }}
+        >
           Add Task
         </button>
       </form>
+
 
       {/* List of Tasks */}
       <ul style={{ listStyle: "none", padding: 0 }}>
