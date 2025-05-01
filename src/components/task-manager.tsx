@@ -33,12 +33,16 @@ function TaskManager({ session }: { session: Session }) {
 
   const deleteTask = async (id: number) => {
     const { error } = await supabase.from("tasks").delete().eq("id", id);
-
+  
     if (error) {
       console.error("Error deleting task: ", error.message);
       return;
     }
+  
+    // Remove task from local state
+    setTasks((prev) => prev.filter((task) => task.id !== id));
   };
+  
 
   const updateTask = async (id: number) => {
     const { error } = await supabase
@@ -73,25 +77,38 @@ function TaskManager({ session }: { session: Session }) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
+  
+    // Check for duplicate (same title and description)
+    const isDuplicate = tasks.some(
+      (task) =>
+        task.title.trim().toLowerCase() === newTask.title.trim().toLowerCase() &&
+        task.description.trim().toLowerCase() === newTask.description.trim().toLowerCase()
+    );
+  
+    if (isDuplicate) {
+      alert("Task with the same title and description already exists.");
+      return;
+    }
+  
     let imageUrl: string | null = null;
     if (taskImage) {
       imageUrl = await uploadImage(taskImage);
     }
-
-    const { error } = await supabase
+  
+    const { error, data } = await supabase
       .from("tasks")
       .insert({ ...newTask, email: session.user.email, image_url: imageUrl })
       .select()
       .single();
-
+  
     if (error) {
       console.error("Error adding task: ", error.message);
       return;
     }
-
+  
     setNewTask({ title: "", description: "" });
   };
+  
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -177,7 +194,6 @@ function TaskManager({ session }: { session: Session }) {
             fontSize: "0.9rem",
           }}
         />
-        
 
         <button
           type="submit"
